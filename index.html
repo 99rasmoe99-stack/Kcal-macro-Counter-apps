@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethiopian Foods App</title>
+
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --bg-alt: #11131a;
+      --card: #151823;
+      --accent: #f5a623;
+      --accent-soft: rgba(245, 166, 35, 0.12);
+      --text: #f5f7ff;
+      --muted: #9aa0b8;
+      --border: #252a3a;
+      --danger: #ff5c5c;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #1b2135 0, #05060a 55%, #020308 100%);
+      color: var(--text);
+      padding: 32px 16px 48px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .app-header {
+      margin-bottom: 28px;
+    }
+
+    .main-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 520px;
+    }
+
+    .controls {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .input,
+    .select {
+      background: var(--bg-alt);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 16px;
+      font-size: 14px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .input {
+      flex: 1 1 260px;
+    }
+
+    .select {
+      flex: 0 0 200px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .foods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .food-card {
+      background: #161922;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(0);
+      opacity: 0;
+      animation: cardFadeIn 0.35s ease-out forwards;
+    }
+
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .food-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.5);
+    }
+
+    .food-image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #0d0f14;
+    }
+
+    .food-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .food-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .food-category {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .food-kcal {
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    .food-macros {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .food-actions {
+      margin-top: 6px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .meal-select {
+      flex: 1;
+      background: var(--bg-alt);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      padding: 6px 10px;
+      outline: none;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 6px 12px;
+      white-space: nowrap;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #1b1204;
+    }
+
+    .btn-primary:hover {
+      background: #ffb53d;
+      transform: translateY(-1px);
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .planner-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .meal-card {
+      background: #171a26;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .meal-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .meal-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .meal-kcal {
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .meal-list {
+      list-style: none;
+      max-height: 150px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .meal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.05);
+    }
+
+    .meal-item-remove {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .daily-overview {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .daily-overview {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .macro-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .macro-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #10121a;
+      overflow: hidden;
+      border: 1px solid #1f2230;
+      margin-top: 6px;
+    }
+
+    .macro-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f5a623, #ff5c5c);
+      width: 0%;
+      transition: width 0.2s ease-out;
+    }
+
+    .daily-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <h1 class="main-title">Explore Ethiopian Foods</h1>
+    <p class="subtitle">Discover calories, macros, and traditional dishes.</p>
+
+    <div class="controls">
+      <input id="search" class="input" type="text" placeholder="Search dishes..." />
+      <select id="categoryFilter" class="select">
+        <option value="all">All categories</option>
+        <option value="Wot">Wot</option>
+        <option value="Tibs">Tibs</option>
+        <option value="Vegan">Vegan</option>
+        <option value="Breakfast">Breakfast</option>
+        <option value="Snacks">Snacks</option>
+        <option value="Modern">Modern</option>
+        <option value="Regional">Regional</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <section class="card">
+      <div class="card-title">All Ethiopian Dishes</div>
+      <div class="card-subtitle">Browse the full database of 57 foods.</div>
+      <div id="foods-grid" class="foods-grid"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-title">Daily Meal Planner</div>
+      <div class="card-subtitle">Add foods to your meals.</div>
+
+      <div class="planner-grid">
+        <div class="meal-card" data-meal="breakfast">
+          <div class="meal-title-row">
+            <div class="meal-title">Breakfast</div>
+            <div class="meal-kcal"><span id="kcal-breakfast">0</span> kcal</div>
+          </div>
+          <ul id="list-breakfast" class="meal-list"></ul>
+        </div>
+
+        <div class="meal-card" data-meal="lunch">
+          <div class="meal-title-row">
+            <div class="meal-title">Lunch</div>
+            <div class="meal-kcal"><span id="kcal-lunch">0</span> kcal</div>
+          </div>
+          <ul id="list-lunch" class="meal-list"></ul>
+        </div>
+
+        <div class="meal-card" data-meal="dinner">
+          <div class="meal-title-row">
+            <div class="meal-title">Dinner</div>
+            <div class="meal-kcal"><span id="kcal-dinner">0</span> kcal</div>
+          </div>
+          <ul id="list-dinner" class="meal-list"></ul>
+        </div>
+
+        <div class="meal-card" data-meal="snacks">
+          <div class="meal-title-row">
+            <div class="meal-title">Snacks</div>
+            <div class="meal-kcal"><span id="kcal-snacks">0</span> kcal</div>
+          </div>
+          <ul id="list-snacks" class="meal-list"></ul>
+        </div>
+      </div>
+
+      <div class="daily-overview">
+        <div>
+          <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:var(--muted); margin-bottom:4px;">
+            Daily Overview
+          </div>
+
+          <div style="font-size:22px; font-weight:600; margin-bottom:6px;">
+            <span id="total-calories">0</span> kcal total
+          </div>
+
+          <div id="daily-macros">
+            <div class="macro-row"><span>Protein</span><span><span id="total-protein">0</span> g</span></div>
+            <div class="macro-row"><span>Carbs</span><span><span id="total-carbs">0</span> g</span></div>
+            <div class="macro-row"><span>Fat</span><span><span id="total-fat">0</span> g</span></div>
+          </div>
+
+          <div class="macro-bar">
+            <div id="macro-bar-fill" class="macro-bar-fill"></div>
+          </div>
+
+          <svg id="macro-pie" width="120" height="120" viewBox="0 0 120 120" style="margin-top:10px;"></svg>
+        </div>
+
+        <div class="daily-actions">
+          <button id="btn-print" class="btn">Print</button>
+          <button id="btn-save-json" class="btn">Save Day (JSON)</button>
+          <button id="btn-reset" class="btn btn-primary">Reset Day</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:var(--muted); margin-bottom:4px;">
+          Weekly Calories (Last 7 Days)
+        </div>
+        <div id="weekly-bars" style="display:flex; gap:6px; align-items:flex-end; height:80px;"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    <div>Built by Mohammed • Amraan Tour & Travel</div>
+    <div>
+      GitHub:
+      <a href="https://github.com/99rasmoe99-stack/ethiopian1-foods-app" target="_blank">
+        ethiopian1-foods-app
+      </a>
+    </div>
+  </footer>
+
+</div>
+
+<!-- RECIPE MODAL -->
+<div id="recipe-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#151823; border-radius:14px; padding:20px; max-width:480px; width:90%; border:1px solid #252a3a;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h2 id="recipe-title" style="font-size:18px;"></h2>
+      <button id="recipe-close" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button>
+    </div>
+    <p id="recipe-description" style="font-size:14px; color:#9aa0b8; margin-bottom:10px;"></p>
+    <ol id="recipe-steps" style="font-size:13px; color:#f5f7ff; padding-left:18px;"></ol>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   FOODS DATABASE (57 ITEMS)
+   ============================================================ */
+const foods = [
+  { name: "Doro Wot", calories: 450, protein: 32, carbs: 18, fat: 26, category: "Wot", image: "images/doro_wot.jpg" },
+  { name: "Key Wot", calories: 420, protein: 30, carbs: 16, fat: 24, category: "Wot", image: "images/key_wot.jpg" },
+  { name: "Misir Wot", calories: 260, protein: 14, carbs: 32, fat: 6, category: "Vegan", image: "images/misir_wot.jpg" },
+  { name: "Shiro Wot", calories: 280, protein: 12, carbs: 30, fat: 10, category: "Vegan", image: "images/shiro_wot.jpg" },
+  { name: "Gomen", calories: 120, protein: 5, carbs: 10, fat: 7, category: "Vegan", image: "images/gomen.jpg" },
+  { name: "Atkilt", calories: 150, protein: 4, carbs: 20, fat: 6, category: "Vegan", image: "images/atkilt.jpg" },
+  { name: "Injera (2 pieces)", calories: 220, protein

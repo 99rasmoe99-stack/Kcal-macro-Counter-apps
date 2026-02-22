@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ethiopian Foods App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      /* Brand Colors */
+      --color-primary: #0078d4;
+      --color-primary-hover: #005fa3;
+
+      /* Semantic Colors */
+      --color-bg: #f9f9f9;
+      --color-surface: #ffffff;
+      --color-text: #222;
+      --color-text-muted: #555;
+      --color-border: #ddd;
+      --color-shadow: rgba(0, 0, 0, 0.06);
+
+      /* Buttons */
+      --color-danger: #d9534f;
+      --color-danger-hover: #b52b27;
+
+      /* Layout */
+      --radius: 10px;
+      --radius-sm: 8px;
+      --shadow: 0 2px 6px var(--color-shadow);
+      --spacing-section: 3rem;
+      --spacing-card: 1.5rem;
+
+      /* Typography */
+      --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-size-base: 1rem;
+      --font-size-title: 1.5rem;
+      --font-size-hero: 2rem;
+    }
+
+    .theme-light {
+      --color-bg: #f9f9f9;
+      --color-surface: #ffffff;
+      --color-text: #222;
+      --color-text-muted: #555;
+      --color-border: #ddd;
+      --color-shadow: rgba(0, 0, 0, 0.06);
+
+      --color-primary: #0078d4;
+      --color-primary-hover: #005fa3;
+
+      --color-danger: #d9534f;
+      --color-danger-hover: #b52b27;
+    }
+
+    .theme-dark {
+      --color-bg: #0f0f0f;
+      --color-surface: #1a1a1a;
+      --color-text: #e6e6e6;
+      --color-text-muted: #aaa;
+      --color-border: #333;
+      --color-shadow: rgba(0, 0, 0, 0.4);
+
+      --color-primary: #4da3ff;
+      --color-primary-hover: #1f7fe6;
+
+      --color-danger: #ff6b6b;
+      --color-danger-hover: #e64545;
+    }
+
+    .theme-amraan {
+      --color-bg: #faf7f2;
+      --color-surface: #ffffff;
+      --color-text: #2b2b2b;
+      --color-text-muted: #6b5f52;
+      --color-border: #e6dfd6;
+      --color-shadow: rgba(0, 0, 0, 0.05);
+
+      --color-primary: #0078d4;
+      --color-primary-hover: #005fa3;
+
+      --color-danger: #c0392b;
+      --color-danger-hover: #992d22;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      padding-bottom: 4rem;
+    }
+
+    .section-spacing {
+      padding: var(--spacing-section) 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-title,
+    .section-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-size: var(--font-size-hero);
+    }
+
+    .section-title {
+      font-size: var(--font-size-title);
+    }
+
+    .hero-subtitle,
+    .section-description {
+      font-size: var(--font-size-base);
+      color: var(--color-text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 4rem;
+    }
+
+    .search-wrapper {
+      margin-top: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      font-size: 1rem;
+      transition: 0.2s;
+      background: var(--color-surface);
+      color: var(--color-text);
+    }
+
+    .search-input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .search-input:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+    }
+
+    .foods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+
+    .food-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .food-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .food-name {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .food-macros {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+
+    .food-actions {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .meal-tag-btn {
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      color: var(--color-text-muted);
+    }
+
+    .meal-tag-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .meal-planner .meal-group {
+      margin-bottom: 2rem;
+      padding: var(--spacing-card);
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .meal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .meal-items {
+      list-style: none;
+    }
+
+    .meal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .meal-item:last-child {
+      border-bottom: none;
+    }
+
+    .meal-item-name {
+      font-weight: 500;
+    }
+
+    .meal-item-meta {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-right: 0.5rem;
+    }
+
+    .remove-btn {
+      border: none;
+      background: transparent;
+      color: var(--color-danger);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .daily-overview .totals-card {
+      background: var(--color-surface);
+      padding: var(--spacing-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .total-line {
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+
+    .total-line strong {
+      font-weight: 700;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .btn-secondary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-danger {
+      background: var(--color-danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: var(--color-danger-hover);
+    }
+
+    .weekly-chart {
+      margin-top: 1.5rem;
+      background: var(--color-surface);
+      padding: var(--spacing-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      font-size: 0.95rem;
+    }
+
+    .weekly-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .weekly-row:last-child {
+      border-bottom: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: #666;
+      margin-top: 3rem;
+    }
+
+    .footer-text {
+      font-weight: 600;
+    }
+
+    .footer-subtext {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 1.7rem;
+      }
+
+      .section-spacing {
+        padding: 2.2rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body class="theme-amraan">
+  <!-- HERO SECTION -->
+  <section class="hero section-spacing">
+    <h1 class="hero-title">Explore Ethiopian Foods</h1>
+    <p class="hero-subtitle">Discover calories, macros, and traditional dishes.</p>
+
+    <div class="search-wrapper">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Search dishes..."
+      />
+    </div>
+  </section>
+
+  <!-- DISHES SECTION -->
+  <section class="foods section-spacing">
+    <h2 class="section-title">Traditional Ethiopian Dishes</h2>
+    <p class="section-description">Browse the full database of Ethiopian foods.</p>
+
+    <div id="foods-list" class="foods-grid">
+      <!-- JS will populate this -->
+    </div>
+  </section>
+
+  <!-- DAILY MEAL PLANNER -->
+  <section class="meal-planner section-spacing">
+    <h2 class="section-title">Daily Meal Planner</h2>
+    <p class="section-description">Add foods to your meals throughout the day.</p>
+
+    <div class="meal-group">
+      <h3 class="meal-title">Breakfast</h3>
+      <p class="empty-state" id="breakfast-empty">
+        No foods added yet. Start by searching or browsing the list.
+      </p>
+      <ul class="meal-items" id="breakfast-list"></ul>
+    </div>
+
+    <div class="meal-group">
+      <h3 class="meal-title">Lunch</h3>
+      <p class="empty-state" id="lunch-empty">
+        No foods added yet. Start by searching or browsing the list.
+      </p>
+      <ul class="meal-items" id="lunch-list"></ul>
+    </div>
+
+    <div class="meal-group">
+      <h3 class="meal-title">Dinner</h3>
+      <p class="empty-state" id="dinner-empty">
+        No foods added yet. Start by searching or browsing the list.
+      </p>
+      <ul class="meal-items" id="dinner-list"></ul>
+    </div>
+
+    <div class="meal-group">
+      <h3 class="meal-title">Snacks</h3>
+      <p class="empty-state" id="snacks-empty">
+        No foods added yet. Start by searching or browsing the list.
+      </p>
+      <ul class="meal-items" id="snacks-list"></ul>
+    </div>
+  </section>
+
+  <!-- DAILY OVERVIEW -->
+  <section class="daily-overview section-spacing">
+    <h2 class="section-title">Daily Overview</h2>
+    <p class="section-description">Your daily totals will appear here once you add foods.</p>
+
+    <div class="totals-card">
+      <p class="total-line"><strong id="total-kcal">0 kcal</strong> total</p>
+      <p class="total-line">Protein: <span id="total-protein">0</span> g</p>
+      <p class="total-line">Carbs: <span id="total-carbs">0</span> g</p>
+      <p class="total-line">Fat: <span id="total-fat">0</span> g</p>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn btn-secondary" id="print-btn">Print</button>
+      <button class="btn btn-secondary" id="save-json-btn">Save Day (JSON)</button>
+      <button class="btn btn-danger" id="reset-btn">Reset Day</button>
+    </div>
+  </section>
+
+  <!-- WEEKLY CALORIES -->
+  <section class="weekly section-spacing">
+    <h2 class="section-title">Weekly Calories (Last 7 Days)</h2>
+    <p class="section-description">Your weekly trend will appear once you start tracking meals.</p>
+
+    <div id="weekly-chart" class="weekly-chart">
+      <!-- JS chart/list goes here -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer section-spacing">
+    <p class="footer-text">
+      Built by Mohammed • Amraan Tour & Travel
+    </p>
+    <p class="footer-subtext">
+      GitHub: ethiopian1-foods-app
+    </p>
+  </footer>
+
+  <script>
+    // Basic structure inspired by your existing app:
+    // - foods.json loading
+    // - meals per day
+    // - totals
+    // - weekly calories via localStorage
+
+    const foodsListEl = document.getElementById("foods-list");
+    const searchInput = document.getElementById("search-input");
+
+    const mealLists = {
+      breakfast: document.getElementById("breakfast-list"),
+      lunch: document.getElementById("lunch-list"),
+      dinner: document.getElementById("dinner-list"),
+      snacks: document.getElementById("snacks-list"),
+    };
+
+    const mealEmptyStates = {
+      breakfast: document.getElementById("breakfast-empty"),
+      lunch: document.getElementById("lunch-empty"),
+      dinner: document.getElementById("dinner-empty"),
+      snacks: document.getElementById("snacks-empty"),
+    };
+
+    const totalKcalEl = document.getElementById("total-kcal");
+    const totalProteinEl = document.getElementById("total-protein");
+    const totalCarbsEl = document.getElementById("total-carbs");
+    const totalFatEl = document.getElementById("total-fat");
+
+    const printBtn = document.getElementById("print-btn");
+    const saveJsonBtn = document.getElementById("save-json-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const weeklyChartEl = document.getElementById("weekly-chart");
+
+    let foods = [];
+    const STORAGE_KEY_DAY = "ethiopianFoods_day";
+    const STORAGE_KEY_WEEK = "ethiopianFoods_week";
+
+    function getTodayKey() {
+      const d = new Date();
+      return d.toISOString().slice(0, 10); // YYYY-MM-DD
+    }
+
+    function loadDayFromStorage() {
+      const raw = localStorage.getItem(STORAGE_KEY_DAY);
+      if (!raw) {
+        return {
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snacks: [],
+        };
+      }
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return {
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snacks: [],
+        };
+      }
+    }
+
+    function saveDayToStorage(dayData) {
+      localStorage.setItem(STORAGE_KEY_DAY, JSON.stringify(dayData));
+    }
+
+    function loadWeekFromStorage() {
+      const raw = localStorage.getItem(STORAGE_KEY_WEEK);
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return {};
+      }
+    }
+
+    function saveWeekToStorage(weekData) {
+      localStorage.setItem(STORAGE_KEY_WEEK, JSON.stringify(weekData));
+    }
+
+    let dayMeals = loadDayFromStorage();
+
+    function renderFoods(list) {
+      foodsListEl.innerHTML = "";
+      list.forEach((food) => {
+        const card = document.createElement("div");
+        card.className = "food-card";
+
+        const nameEl = document.createElement("div");
+        nameEl.className = "food-name";
+        nameEl.textContent = food.name;
+
+        const macrosEl = document.createElement("div");
+        macrosEl.className = "food-macros";
+        macrosEl.textContent =
+          `${food.kcal} kcal • P ${food.protein}g • C ${food.carbs}g • F ${food.fat}g`;
+
+        const actionsEl = document.createElement("div");
+        actionsEl.className = "food-actions";
+
+        ["breakfast", "lunch", "dinner", "snacks"].forEach((mealKey) => {
+          const btn = document.createElement("button");
+          btn.className = "meal-tag-btn";
+          btn.textContent =
+            mealKey.charAt(0).toUpperCase() + mealKey.slice(1);
+          btn.addEventListener("click", () => addFoodToMeal(mealKey, food));
+          actionsEl.appendChild(btn);
+        });
+
+        card.appendChild(nameEl);
+        card.appendChild(macrosEl);
+        card.appendChild(actionsEl);
+        foodsListEl.appendChild(card);
+      });
+    }
+
+    function updateEmptyState(mealKey) {
+      const list = dayMeals[mealKey];
+      if (!list || list.length === 0) {
+        mealEmptyStates[mealKey].style.display = "block";
+      } else {
+        mealEmptyStates[mealKey].style.display = "none";
+      }
+    }
+
+    function renderMeals() {
+      ["breakfast", "lunch", "dinner", "snacks"].forEach((mealKey) => {
+        const ul = mealLists[mealKey];
+        ul.innerHTML = "";
+        const items = dayMeals[mealKey] || [];
+        items.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.className = "meal-item";
+
+          const left = document.createElement("div");
+          const nameSpan = document.createElement("span");
+          nameSpan.className = "meal-item-name";
+          nameSpan.textContent = item.name;
+
+          const metaSpan = document.createElement("span");
+          metaSpan.className = "meal-item-meta";
+          metaSpan.textContent = `${item.kcal} kcal`;
+
+          left.appendChild(nameSpan);
+          left.appendChild(document.createTextNode(" "));
+          left.appendChild(metaSpan);
+
+          const removeBtn = document.createElement("button");
+          removeBtn.className = "remove-btn";
+          removeBtn.textContent = "Remove";
+          removeBtn.addEventListener("click", () =>
+            removeFoodFromMeal(mealKey, index)
+          );
+
+          li.appendChild(left);
+          li.appendChild(removeBtn);
+          ul.appendChild(li);
+        });
+
+        updateEmptyState(mealKey);
+      });
+
+      updateTotals();
+    }
+
+    function updateTotals() {
+      let totalKcal = 0;
+      let totalProtein = 0;
+      let totalCarbs = 0;
+      let totalFat = 0;
+
+      ["breakfast", "lunch", "dinner", "snacks"].forEach((mealKey) => {
+        (dayMeals[mealKey] || []).forEach((item) => {
+          totalKcal += item.kcal;
+          totalProtein += item.protein;
+          totalCarbs += item.carbs;
+          totalFat += item.fat;
+        });
+      });
+
+      totalKcalEl.textContent = `${totalKcal} kcal`;
+      totalProteinEl.textContent = totalProtein;
+      totalCarbsEl.textContent = totalCarbs;
+      totalFatEl.textContent = totalFat;
+
+      // Update weekly storage
+      const weekData = loadWeekFromStorage();
+      const todayKey = getTodayKey();
+      weekData[todayKey] = totalKcal;
+      saveWeekToStorage(weekData);
+      renderWeekly(weekData);
+    }
+
+    function renderWeekly(weekData) {
+      weeklyChartEl.innerHTML = "";
+      const today = new Date();
+      const days = [];
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        days.push(key);
+      }
+
+      let hasAny = false;
+
+      days.forEach((key) => {
+        const kcal = weekData[key] || 0;
+        if (kcal > 0) hasAny = true;
+        const row = document.createElement("div");
+        row.className = "weekly-row";
+
+        const label = document.createElement("span");
+        label.textContent = key;
+
+        const value = document.createElement("span");
+        value.textContent = `${kcal} kcal`;
+
+        row.appendChild(label);
+        row.appendChild(value);
+        weeklyChartEl.appendChild(row);
+      });
+
+      if (!hasAny) {
+        weeklyChartEl.innerHTML =
+          "<p>Your weekly trend will appear once you start tracking meals.</p>";
+      }
+    }
+
+    function addFoodToMeal(mealKey, food) {
+      if (!dayMeals[mealKey]) dayMeals[mealKey] = [];
+      dayMeals[mealKey].push({
+        name: food.name,
+        kcal: food.kcal,
+        protein: food.protein,
+        carbs: food.carbs,
+        fat: food.fat,
+      });
+      saveDayToStorage(dayMeals);
+      renderMeals();
+    }
+
+    function removeFoodFromMeal(mealKey, index) {
+      if (!dayMeals[mealKey]) return;
+      dayMeals[mealKey].splice(index, 1);
+      saveDayToStorage(dayMeals);
+      renderMeals();
+    }
+
+    function resetDay() {
+      dayMeals = {
+        breakfast: [],
+        lunch: [],
+        dinner: [],
+        snacks: [],
+      };
+      saveDayToStorage(dayMeals);
+      renderMeals();
+    }
+
+    function saveDayAsJson() {
+      const dataStr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(dayMeals, null, 2));
+      const a = document.createElement("a");
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `ethiopian-foods-day-${getTodayKey()}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function filterFoods(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        renderFoods(foods);
+        return;
+      }
+      const filtered = foods.filter((f) =>
+        f.name.toLowerCase().includes(q)
+      );
+      renderFoods(filtered);
+    }
+
+    function initEvents() {
+      searchInput.addEventListener("input", (e) =>
+        filterFoods(e.target.value)
+      );
+
+      printBtn.addEventListener("click", () => window.print());
+      saveJsonBtn.addEventListener("click", saveDayAsJson);
+      resetBtn.addEventListener("click", resetDay);
+    }
+
+    async function loadFoods() {
+      try {
+        const res = await fetch("foods.json");
+        const data = await res.json();
+        // Expecting array of objects with name, kcal, protein, carbs, fat
+        foods = data;
+        renderFoods(foods);
+      } catch (e) {
+        console.error("Error loading foods.json", e);
+        foodsListEl.innerHTML =
+          "<p>Unable to load foods data. Please check foods.json.</p>";
+      }
+    }
+
+    function init() {
+      initEvents();
+      dayMeals = loadDayFromStorage();
+      renderMeals();
+      const weekData = loadWeekFromStorage();
+      renderWeekly(weekData);
+      loadFoods();
+    }
+
+    init();
+  </script>
+</body>
+</html>

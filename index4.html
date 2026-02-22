@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ethiopian Foods • Recipes & Calories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <p class="eyebrow">Authentic Ethiopian Cuisine</p>
+            <h1>Ethiopian Foods • Recipes & Calories</h1>
+            <p class="hero-subtitle">Explore traditional dishes, check nutrition, build your day, and discover recipes in one place.</p>
+            <div class="hero-cta">
+                <a href="#explore" class="hero-link">Explore Dishes</a>
+                <a href="#planner" class="hero-link hero-link-outline">Plan Your Day</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="search-section" id="explore">
+            <h2>Find Ethiopian Dishes</h2>
+            <p>Search by dish name or category and instantly see recipes and macros.</p>
+            <input id="search" type="text" placeholder="Search (Doro Wot, Shiro, Injera...)">
+        </section>
+
+        <section class="categories">
+            <div class="category-card">
+                <h3>Rich / Heavy</h3>
+                <p>Doro, Tibs, Firfir, etc.</p>
+                <div class="stat">Calories: <span id="rich-cal">0</span> kcal</div>
+            </div>
+
+            <div class="category-card">
+                <h3>Lighter / Vegan</h3>
+                <p>Shiro, Misir, Gomen, etc.</p>
+                <div class="stat">Calories: <span id="light-cal">0</span> kcal</div>
+            </div>
+
+            <div class="category-card">
+                <h3>Difference (Light - Rich)</h3>
+                <div class="stat"><span id="diff-cal">0</span> kcal</div>
+            </div>
+
+            <div class="category-card">
+                <h3>Protein</h3>
+                <div class="stat"><span id="protein-total">0</span> g</div>
+            </div>
+
+            <div class="category-card">
+                <h3>Carbs</h3>
+                <div class="stat"><span id="carb-total">0</span> g</div>
+            </div>
+
+            <div class="category-card">
+                <h3>Fat</h3>
+                <div class="stat"><span id="fat-total">0</span> g</div>
+            </div>
+        </section>
+
+        <section id="foods-container" class="foods-grid"></section>
+
+        <section class="meals" id="planner">
+            <h2>Meal Planner</h2>
+
+            <div class="meal">
+                <h3>Breakfast</h3>
+                <div id="breakfast-list"></div>
+                <p>Total: <span id="breakfast-cal">0</span> kcal</p>
+            </div>
+
+            <div class="meal">
+                <h3>Lunch</h3>
+                <div id="lunch-list"></div>
+                <p>Total: <span id="lunch-cal">0</span> kcal</p>
+            </div>
+
+            <div class="meal">
+                <h3>Dinner</h3>
+                <div id="dinner-list"></div>
+                <p>Total: <span id="dinner-cal">0</span> kcal</p>
+            </div>
+
+            <div class="meal">
+                <h3>Snacks</h3>
+                <div id="snacks-list"></div>
+                <p>Total: <span id="snacks-cal">0</span> kcal</p>
+            </div>
+        </section>
+
+        <section class="presets">
+            <h2>Ethiopian Preset Meals</h2>
+            <button id="preset-breakfast">Typical Breakfast</button>
+            <button id="preset-lunch">Typical Lunch</button>
+            <button id="preset-dinner">Typical Dinner</button>
+        </section>
+
+        <section class="actions">
+            <h2>Day Actions</h2>
+            <button id="save-day">Save Day (JSON)</button>
+            <button id="print-page">Print Page</button>
+            <button id="reset-day">Reset day</button>
+        </section>
+
+        <section class="overview">
+            <h2>Daily Overview</h2>
+            <p>Total Calories: <span id="day-total">0</span></p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Built by Mohammed • Amraan Tour & Travel</p>
+        <p>
+            <a href="https://github.com/99rasmoe99-stack/ethiopian1-foods-app" target="_blank" rel="noopener noreferrer">
+                View on GitHub
+            </a>
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
